@@ -1,7 +1,6 @@
 // const axios = require('axios')
 // const url = 'http://checkip.amazonaws.com/';
 const databaseManager = require('./databaseManager');
-const { v4: uuidv4 } = require('uuid');
 /**
  *
  * Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
@@ -34,7 +33,7 @@ exports.paymentHandler = async (event) => {
 
 function savePayment(event) {
 	const payment = JSON.parse(event.body);
-	payment.paymentId = uuidv4();
+	payment.paymentId = Math.floor(100000 + Math.random() * 900000).toString();
 
 	return databaseManager.savePayment(payment).then(response => {
 		console.log(response);
