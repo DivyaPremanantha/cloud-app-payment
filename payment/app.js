@@ -66,18 +66,21 @@ function deletePayment(event) {
 }
 
 function updatePayment(event, tableName) {
+	let paymentId;
+	let paramName;
+	let paramValue;
 
 	if (tableName == process.env.PAYMENT_TABLE_NAME) {
 		console.log(event)
 		console.log(event.paymentId)
-		const paymentId = event.paymentId;
-		const paramName = event.paramName;
-		const paramValue = event.paramValue;
+		paymentId = event.paymentId;
+		paramName = event.paramName;
+		paramValue = event.paramValue;
 	} else {
-		const paymentId = event.pathParameters.paymentId;
+		paymentId = event.pathParameters.paymentId;
 		const body = JSON.parse(event.body);
-		const paramName = body.paramName;
-		const paramValue = body.paramValue;
+		paramName = body.paramName;
+		paramValue = body.paramValue;
 	}
 
 
