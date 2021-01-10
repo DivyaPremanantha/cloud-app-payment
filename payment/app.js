@@ -71,7 +71,7 @@ function updateBooking(event) {
 
 	return databaseManager.updateBooking(bookingId, paramName, paramValue).then(response => {
 		console.log(response);
-		return sendResponse(200, JSON.stringify(response));
+		return sendResponse(200, response);
 	});
 }
 

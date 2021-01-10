@@ -23,14 +23,17 @@ Mappings:
   ResourcesName:
     dev:
       tableName: PaymentDev
+      tableNameArn: BookingTripDevArn
       bookingTableName: BookingTripDev
       arn: UserPoolArnDev
     staging:
       tableName: PaymentStaging
+      tableNameArn: BookingTripStagingArn
       bookingTableName: BookingTripStaging
       arn: UserPoolArnStaging
     prod:
       tableName: PaymentProd
+      tableNameArn: BookingTripProdArn
       bookingTableName: BookingTripProd
       arn: UserPoolArnProd
 
@@ -98,9 +101,14 @@ Outputs:
   PaymentApi:
     Description: "API Gateway endpoint URL for ${Environment} stage for payment Trip function"
     Value: !Sub "https://${PaymentApi}.execute-api.${AWS::Region}.amazonaws.com/${Environment}/payment/"
-  Payment:
+  PaymentTable:
     Description: "payment Trip Lambda Function ARN"
     Value: !GetAtt Payment.Arn
+  PaymentTableStream:
+    Description: "Booking Trip Dynamo DB Table Stream"
+    Value: !GetAtt Payment.StreamArn
+    Export: 
+      Name: !FindInMap [ResourcesName, !Ref Environment, tableNameArn]
   PaymentIamRole:
     Description: "Implicit IAM Role created for payment Trip function"
     Value: !GetAtt PaymentRole.Arn
