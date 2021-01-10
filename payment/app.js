@@ -33,6 +33,7 @@ exports.paymentHandler = async (event, context) => {
 };
 
 function savePayment(event, context) {
+	const TABLE_NAME = process.env.PAYMENT_TABLE_NAME;
 	const payment = JSON.parse(event.body);
 	payment.paymentId = context.awsRequestId;
 	payment.customerId = event.requestContext.authorizer.claims.sub;
@@ -40,7 +41,7 @@ function savePayment(event, context) {
 	return databaseManager.savePayment(payment).then(response => {
 		console.log(response);
 		const formData = '{ "pathParameters": {"paymentId": '+ payment.paymentId +'}, "body": {"paramName": "paymentStatus", "paramValue": "Successfull" }}'
-		return updatePayment(tableName, formData);
+		return updatePayment(TABLE_NAME, formData);
 	});
 }
 
