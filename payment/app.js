@@ -41,7 +41,6 @@ function savePayment(event, context) {
 	return databaseManager.savePayment(payment).then(response => {
 		console.log(response);
 		const formData = JSON.parse(event.body);
-		formData.paymentId = payment.paymentId;
 		formData.paramName = "paymentStatus";
 		formData.paramValue = "Successfull";
 		return updatePayment(formData, TABLE_NAME);
@@ -66,18 +65,18 @@ function deletePayment(event) {
 }
 
 function updatePayment(event, tableName) {
-	let paymentId;
+	let id;
 	let paramName;
 	let paramValue;
 
 	if (tableName == process.env.PAYMENT_TABLE_NAME) {
 		console.log(event)
 		console.log(event.paymentId)
-		paymentId = event.paymentId;
+		id = event.bookingId;
 		paramName = event.paramName;
 		paramValue = event.paramValue;
 	} else {
-		paymentId = event.pathParameters.paymentId;
+		id = event.pathParameters.paymentId;
 		const body = JSON.parse(event.body);
 		paramName = body.paramName;
 		paramValue = body.paramValue;
