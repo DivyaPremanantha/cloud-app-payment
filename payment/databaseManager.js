@@ -4,6 +4,7 @@ const AWS = require('aws-sdk');
 let dynamo = new AWS.DynamoDB.DocumentClient();
 
 const TABLE_NAME = process.env.TABLE_NAME;
+const PAYMENT_TABLE_NAME = process.env.PAYMENT_TABLE_NAME;
 
 module.exports.initializateDynamoClient = newDynamo => {
 	dynamo = newDynamo;
@@ -19,6 +20,7 @@ module.exports.savePayment = payment => {
 		.put(params)
 		.promise()
 		.then(() => {
+			this.update(payment.bookingId, paymentStatus, "Successfull");
 			return payment.paymentId;
 		});
 };
@@ -50,7 +52,7 @@ module.exports.deletePayment = paymentId => {
 	return dynamo.delete(params).promise();
 };
 
-module.exports.updatePayment = (paymentId, paramsName, paramsValue) => {
+module.exports.update = (paymentId, paramsName, paramsValue) => {
 	const params = {
 		TableName: TABLE_NAME,
 		Key: {

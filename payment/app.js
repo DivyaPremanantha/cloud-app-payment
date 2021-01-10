@@ -65,7 +65,7 @@ function updatePayment(event) {
 	const paramName = body.paramName;
 	const paramValue = body.paramValue;
 
-	return databaseManager.updatePayment(paymentId, paramName, paramValue).then(response => {
+	return databaseManager.update(paymentId, paramName, paramValue).then(response => {
 		console.log(response);
 		return sendResponse(200, JSON.stringify(response));
 	});

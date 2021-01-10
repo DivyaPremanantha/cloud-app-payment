@@ -22,11 +22,14 @@ Parameters:
 Mappings:
   ResourcesName:
     dev:
-      tableName: Payment-dev
+      tableName: PaymentDev
+      paymentTableName: BookingTripDev
     staging:
-      tableName: Payment-staging
+      tableName: PaymentStaging
+      paymentTableName: BookingTripStaging
     prod:
-      tableName: Payment-prod
+      tableName: PaymentProd
+      paymentTableName: BookingTripProd
 
 Resources:
   PaymentApi:
@@ -47,6 +50,7 @@ Resources:
       Environment:
         Variables:
           TABLE_NAME: !FindInMap [ResourcesName, !Ref Environment, tableName]
+          PAYMENT_TABLE_NAME: !FindInMap [ResourcesName, !Ref Environment, paymentTableName]
       Events:
         CreatePaymentAPI:
           Type: Api
