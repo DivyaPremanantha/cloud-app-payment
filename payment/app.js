@@ -40,11 +40,10 @@ function savePayment(event, context) {
 
 	return databaseManager.savePayment(payment).then(response => {
 		console.log(response);
-		const formData = {
-			paymentId: payment.paymentId,
-			paramName: "paymentStatus",
-			paramValue: "Successfull"
-		}
+		const formData = JSON.parse(event.body);
+		formData.paymentId = payment.paymentId;
+		formData.paramName = "paymentStatus";
+		formData.paramValue = "Successfull";
 		return updatePayment(formData, TABLE_NAME);
 	});
 }
