@@ -19,17 +19,17 @@ Mappings:
   ResourcesName:
     dev:
       tableName: PaymentDev
-      tableNameArn: BookingTripDevArn
+      tableNameArn: PaymentDevArn
       bookingTableName: BookingTripDev
       arn: UserPoolArnDev
     staging:
       tableName: PaymentStaging
-      tableNameArn: BookingTripStagingArn
+      tableNameArn: PaymentStagingArn
       bookingTableName: BookingTripStaging
       arn: UserPoolArnStaging
     prod:
       tableName: PaymentProd
-      tableNameArn: BookingTripProdArn
+      tableNameArn: PaymentProdArn
       bookingTableName: BookingTripProd
       arn: UserPoolArnProd
 
