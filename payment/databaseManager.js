@@ -53,9 +53,9 @@ module.exports.deletePayment = paymentId => {
 module.exports.update = (tableName, paymentId, paramsName, paramsValue) => {
 	var condition;
 	if (tableName == process.env.PAYMENT_TABLE_NAME) {
-		condition = bookingId;
+		condition = 'bookingId';
 	} else {
-		condition = paymentId;
+		condition = 'paymentId';
 	}
 	const params = {
 		TableName: tableName,
