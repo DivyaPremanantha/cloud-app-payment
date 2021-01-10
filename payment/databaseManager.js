@@ -4,6 +4,7 @@ const AWS = require('aws-sdk');
 let dynamo = new AWS.DynamoDB.DocumentClient();
 
 const TABLE_NAME = process.env.TABLE_NAME;
+const BOOKING_TABLE_NAME = process.env.BOOKING_TABLE_NAME;
 
 module.exports.initializateDynamoClient = newDynamo => {
 	dynamo = newDynamo;
@@ -50,19 +51,13 @@ module.exports.deletePayment = paymentId => {
 	return dynamo.delete(params).promise();
 };
 
-module.exports.update = (tableName, id, paramsName, paramsValue) => {
-	var condition;
-	if (tableName == process.env.PAYMENT_TABLE_NAME) {
-		condition = 'bookingId';
-	} else {
-		condition = 'paymentId';
-	}
+module.exports.updateBooking = (bookingId, paramsName, paramsValue) => {
 	const params = {
-		TableName: tableName,
+		TableName: BOOKING_TABLE_NAME,
 		Key: {
-			id
+			bookingId
 		},
-		ConditionExpression: 'attribute_exists(' + condition + ')',
+		ConditionExpression: 'attribute_exists(bookingId)',
 		UpdateExpression: 'set ' + paramsName + ' = :v',
 		ExpressionAttributeValues: {
 			':v': paramsValue
@@ -70,14 +65,32 @@ module.exports.update = (tableName, id, paramsName, paramsValue) => {
 		ReturnValues: 'ALL_NEW'
 	};
 
-	console.log(params);
+	return dynamo
+		.update(params)
+		.promise()
+		.then(response => {
+			return response.Attributes;
+		});
+};
+
+module.exports.updatePayment = (paymentId, paramsName, paramsValue) => {
+	const params = {
+		TableName: TABLE_NAME,
+		Key: {
+			paymentId
+		},
+		ConditionExpression: 'attribute_exists(paymentId)',
+		UpdateExpression: 'set ' + paramsName + ' = :v',
+		ExpressionAttributeValues: {
+			':v': paramsValue
+		},
+		ReturnValues: 'ALL_NEW'
+	};
 
 	return dynamo
 		.update(params)
 		.promise()
 		.then(response => {
-			console.log("Bingo")
-			console.log(Attributes)
 			return response.Attributes;
 		});
 };

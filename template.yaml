@@ -23,15 +23,15 @@ Mappings:
   ResourcesName:
     dev:
       tableName: PaymentDev
-      paymentTableName: BookingTripDev
+      bookingTableName: BookingTripDev
       arn: UserPoolArnDev
     staging:
       tableName: PaymentStaging
-      paymentTableName: BookingTripStaging
+      bookingTableName: BookingTripStaging
       arn: UserPoolArnStaging
     prod:
       tableName: PaymentProd
-      paymentTableName: BookingTripProd
+      bookingTableName: BookingTripProd
       arn: UserPoolArnProd
 
 Resources:
@@ -58,11 +58,11 @@ Resources:
         - DynamoDBCrudPolicy:
             TableName: !FindInMap [ResourcesName, !Ref Environment, tableName]
         - DynamoDBCrudPolicy:
-            TableName: !FindInMap [ResourcesName, !Ref Environment, paymentTableName]
+            TableName: !FindInMap [ResourcesName, !Ref Environment, bookingTableName]
       Environment:
         Variables:
           TABLE_NAME: !FindInMap [ResourcesName, !Ref Environment, tableName]
-          PAYMENT_TABLE_NAME: !FindInMap [ResourcesName, !Ref Environment, paymentTableName]
+          BOOKING_TABLE_NAME: !FindInMap [ResourcesName, !Ref Environment, bookingTableName]
       Events:
         CreatePaymentAPI:
           Type: Api
