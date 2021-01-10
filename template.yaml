@@ -101,7 +101,7 @@ Outputs:
     Value: !GetAtt Payment.Arn
   PaymentTableStream:
     Description: "Booking Trip Dynamo DB Table Stream"
-    Value: !GetAtt Payment.StreamArn
+    Value: !GetAtt PaymentTable.StreamArn
     Export: 
       Name: !FindInMap [ResourcesName, !Ref Environment, tableNameArn]
   PaymentIamRole:
