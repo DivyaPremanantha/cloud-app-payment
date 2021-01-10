@@ -63,7 +63,9 @@ function deletePayment(event) {
 }
 
 function updatePayment(event) {
+	console.log("*************");
 	console.log(event);
+	console.log("*************");
 	const TABLE_NAME = process.env.TABLE_NAME;
 	const paymentId = event.pathParameters.paymentId;
 
