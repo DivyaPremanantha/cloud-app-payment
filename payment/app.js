@@ -41,9 +41,9 @@ function savePayment(event, context) {
 	return databaseManager.savePayment(payment).then(response => {
 		console.log(response);
 		const formData = {
-			paymentId = payment.paymentId,
-			paramName = "paymentStatus",
-			paramValue = "Successfull"
+			paymentId: payment.paymentId,
+			paramName: "paymentStatus",
+			paramValue: "Successfull"
 		}
 		return updatePayment(formData, TABLE_NAME);
 	});
