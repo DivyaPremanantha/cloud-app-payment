@@ -76,7 +76,6 @@ function updateBooking(event) {
 
 function updatePayment(event) {
 	const paymentId = event.pathParameters.paymentId;
-
 	const body = JSON.parse(event.body);
 	const paramName = body.paramName;
 	const paramValue = body.paramValue;
