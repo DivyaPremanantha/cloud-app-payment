@@ -50,7 +50,7 @@ module.exports.deletePayment = paymentId => {
 	return dynamo.delete(params).promise();
 };
 
-module.exports.update = (tableName, paymentId, paramsName, paramsValue) => {
+module.exports.update = (tableName, id, paramsName, paramsValue) => {
 	var condition;
 	if (tableName == process.env.PAYMENT_TABLE_NAME) {
 		condition = 'bookingId';
@@ -60,7 +60,7 @@ module.exports.update = (tableName, paymentId, paramsName, paramsValue) => {
 	const params = {
 		TableName: tableName,
 		Key: {
-			paymentId
+			id
 		},
 		ConditionExpression: 'attribute_exists(' + condition + ')',
 		UpdateExpression: 'set ' + paramsName + ' = :v',
