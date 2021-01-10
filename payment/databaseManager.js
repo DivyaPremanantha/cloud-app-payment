@@ -20,7 +20,7 @@ module.exports.savePayment = payment => {
 		.put(params)
 		.promise()
 		.then(() => {
-			this.update(PAYMENT_TABLE_NAME, payment.bookingId, paymentStatus, "Successfull");
+			this.update(PAYMENT_TABLE_NAME, payment.bookingId, "paymentStatus", "Successfull");
 			return payment.paymentId;
 		});
 };
