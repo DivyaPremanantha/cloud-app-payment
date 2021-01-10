@@ -20,7 +20,7 @@ module.exports.savePayment = payment => {
 		.put(params)
 		.promise()
 		.then(() => {
-			this.update(payment.bookingId, paymentStatus, "Successfull");
+			this.update(PAYMENT_TABLE_NAME, payment.bookingId, paymentStatus, "Successfull");
 			return payment.paymentId;
 		});
 };
@@ -52,9 +52,9 @@ module.exports.deletePayment = paymentId => {
 	return dynamo.delete(params).promise();
 };
 
-module.exports.update = (paymentId, paramsName, paramsValue) => {
+module.exports.update = (tableName, paymentId, paramsName, paramsValue) => {
 	const params = {
-		TableName: TABLE_NAME,
+		TableName: tableName,
 		Key: {
 			paymentId
 		},

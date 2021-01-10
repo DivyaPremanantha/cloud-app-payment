@@ -59,13 +59,14 @@ function deletePayment(event) {
 }
 
 function updatePayment(event) {
+	const TABLE_NAME = process.env.TABLE_NAME;
 	const paymentId = event.pathParameters.paymentId;
 
 	const body = JSON.parse(event.body);
 	const paramName = body.paramName;
 	const paramValue = body.paramValue;
 
-	return databaseManager.update(paymentId, paramName, paramValue).then(response => {
+	return databaseManager.update(TABLE_NAME, paymentId, paramName, paramValue).then(response => {
 		console.log(response);
 		return sendResponse(200, JSON.stringify(response));
 	});
