@@ -26,7 +26,7 @@ exports.paymentHandler = async (event, context) => {
 		case 'POST':
 			return savePayment(event, context);
 		case 'PUT':
-			return updatePayment(event, tableName);
+			return updatePayment(event, TABLE_NAME);
 		default:
 			return sendResponse(404, `Unsupported method "${event.httpMethod}"`);
 	}
@@ -41,7 +41,7 @@ function savePayment(event, context) {
 	return databaseManager.savePayment(payment).then(response => {
 		console.log(response);
 		const formData = '{ "pathParameters": {"paymentId": '+ payment.paymentId +'}, "body": {"paramName": "paymentStatus", "paramValue": "Successfull" }}'
-		return updatePayment(TABLE_NAME, formData);
+		return updatePayment(formData, TABLE_NAME);
 	});
 }
 
@@ -62,18 +62,17 @@ function deletePayment(event) {
 	});
 }
 
-function updatePayment(event) {
+function updatePayment(event, tableName) {
 	console.log("*************");
 	console.log(event);
 	console.log("*************");
-	const TABLE_NAME = process.env.TABLE_NAME;
 	const paymentId = event.pathParameters.paymentId;
 
 	const body = JSON.parse(event.body);
 	const paramName = body.paramName;
 	const paramValue = body.paramValue;
 	console.log(event);
-	return databaseManager.update(TABLE_NAME, paymentId, paramName, paramValue).then(response => {
+	return databaseManager.update(tableName, paymentId, paramName, paramValue).then(response => {
 		console.log(response);
 		return sendResponse(200, JSON.stringify(response));
 	});
