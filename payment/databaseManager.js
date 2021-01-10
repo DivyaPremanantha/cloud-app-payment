@@ -71,6 +71,7 @@ module.exports.update = (tableName, paymentId, paramsName, paramsValue) => {
 		.update(params)
 		.promise()
 		.then(response => {
+			console.log(Attributes)
 			return response.Attributes;
 		});
 };
