@@ -66,6 +66,7 @@ module.exports.update = (tableName, paymentId, paramsName, paramsValue) => {
 		ReturnValues: 'ALL_NEW'
 	};
 
+	console.log(params)
 	return dynamo
 		.update(params)
 		.promise()
