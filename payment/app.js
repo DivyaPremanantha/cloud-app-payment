@@ -40,10 +40,11 @@ function savePayment(event, context) {
 
 	return databaseManager.savePayment(payment).then(response => {
 		console.log(response);
-		const formData = JSON.parse(event.body);
-		formData.paymentId = payment.paymentId;
-		formData.paramName = "paymentStatus";
-		formData.paramValue = "Successfull";
+		const formData = {
+			paymentId = payment.paymentId,
+			paramName = "paymentStatus",
+			paramValue = "Successfull"
+		}
 		return updatePayment(formData, TABLE_NAME);
 	});
 }
@@ -68,12 +69,11 @@ function deletePayment(event) {
 function updatePayment(event, tableName) {
 
 	if (tableName == process.env.PAYMENT_TABLE_NAME) {
-		const body = JSON.parse(event);
 		console.log(event)
-		console.log(body)
-		const paymentId = body.paymentId;
-		const paramName = body.paramName;
-		const paramValue = body.paramValue;
+		console.log(event.paymentId)
+		const paymentId = event.paymentId;
+		const paramName = event.paramName;
+		const paramValue = event.paramValue;
 	} else {
 		const paymentId = event.pathParameters.paymentId;
 		const body = JSON.parse(event.body);
