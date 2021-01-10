@@ -40,7 +40,7 @@ function savePayment(event, context) {
 
 	return databaseManager.savePayment(payment).then(response => {
 		console.log(response);
-		const formData = '{ "pathParameters": {"paymentId": '+ payment.paymentId +'}, "body": {"paramName": "paymentStatus", "paramValue": "Successfull" }}'
+		const formData = '{ "pathParameters": {"paymentId": "'+ payment.paymentId +'"}, "body": {"paramName": "paymentStatus", "paramValue": "Successfull" }}'
 		return updatePayment(formData, TABLE_NAME);
 	});
 }
@@ -65,6 +65,7 @@ function deletePayment(event) {
 function updatePayment(event, tableName) {
 	console.log("*************");
 	console.log(event);
+	console.log(event.pathParameters);
 	console.log("*************");
 	const paymentId = event.pathParameters.paymentId;
 
