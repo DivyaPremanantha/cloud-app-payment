@@ -40,7 +40,10 @@ function savePayment(event, context) {
 
 	return databaseManager.savePayment(payment).then(response => {
 		console.log(response);
-		const formData = '{ "pathParameters": {"paymentId": "'+ payment.paymentId +'"}, "body": {"paramName": "paymentStatus", "paramValue": "Successfull" }}'
+		const formData = JSON.parse(event.body);
+		formData.paymentId = payment.paymentId;
+		formData.paramName = "paymentStatus";
+		formData.paramValue = "Successfull";
 		return updatePayment(formData, TABLE_NAME);
 	});
 }
@@ -63,15 +66,19 @@ function deletePayment(event) {
 }
 
 function updatePayment(event, tableName) {
-	console.log("*************");
-	console.log(event);
-	console.log(event.pathParameters);
-	console.log("*************");
-	const paymentId = event.pathParameters.paymentId;
 
-	const body = JSON.parse(event.body);
-	const paramName = body.paramName;
-	const paramValue = body.paramValue;
+	if (tableName == process.env.PAYMENT_TABLE_NAME) {
+		const paymentId = event.paymentId;
+		const paramName = event.paramName;
+		const paramValue = event.paramValue;
+	} else {
+		const paymentId = event.pathParameters.paymentId;
+		const body = JSON.parse(event.body);
+		const paramName = body.paramName;
+		const paramValue = body.paramValue;
+	}
+
+
 	console.log(event);
 	return databaseManager.update(tableName, paymentId, paramName, paramValue).then(response => {
 		console.log(response);
