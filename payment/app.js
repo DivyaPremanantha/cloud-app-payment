@@ -33,7 +33,8 @@ exports.paymentHandler = async (event) => {
 
 function savePayment(event) {
 	const payment = JSON.parse(event.body);
-	payment.paymentId = Math.floor(100000 + Math.random() * 900000).toString();
+	payment.paymentId = context.awsRequestId;
+	payment.customerId = event.requestContext.authorizer.claims.sub;
 
 	return databaseManager.savePayment(payment).then(response => {
 		console.log(response);
