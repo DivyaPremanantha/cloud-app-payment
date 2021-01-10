@@ -35,10 +35,14 @@ function savePayment(event, context) {
 	const payment = JSON.parse(event.body);
 	payment.paymentId = context.awsRequestId;
 	payment.customerId = event.requestContext.authorizer.claims.sub;
+	const PAYMENT_TABLE_NAME = process.env.PAYMENT_TABLE_NAME;
 
 	return databaseManager.savePayment(payment).then(response => {
-		console.log(response);
-		return sendResponse(200, payment.paymentId);
+		console.log("response");
+		console.log(response);			
+		databaseManager.update(PAYMENT_TABLE_NAME, payment.bookingId, "paymentStatus", "Successfull").then(response => {
+			return sendResponse(200, payment.paymentId);
+		});
 	});
 }
 
