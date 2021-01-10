@@ -83,7 +83,6 @@ function updatePayment(event, tableName) {
 		paramValue = body.paramValue;
 	}
 
-
 	console.log(event);
 	return databaseManager.update(tableName, paymentId, paramName, paramValue).then(response => {
 		console.log(response);

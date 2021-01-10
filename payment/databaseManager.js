@@ -51,18 +51,26 @@ module.exports.deletePayment = paymentId => {
 };
 
 module.exports.update = (tableName, paymentId, paramsName, paramsValue) => {
+	var condition;
+	if (tableName == process.env.PAYMENT_TABLE_NAME) {
+		condition = bookingId;
+	} else {
+		condition = paymentId;
+	}
 	const params = {
 		TableName: tableName,
 		Key: {
 			paymentId
 		},
-		ConditionExpression: 'attribute_exists(paymentId)',
+		ConditionExpression: 'attribute_exists(' + condition + ')',
 		UpdateExpression: 'set ' + paramsName + ' = :v',
 		ExpressionAttributeValues: {
 			':v': paramsValue
 		},
 		ReturnValues: 'ALL_NEW'
 	};
+
+	console.log(params);
 
 	return dynamo
 		.update(params)
