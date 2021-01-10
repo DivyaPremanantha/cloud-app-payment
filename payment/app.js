@@ -14,7 +14,7 @@ const databaseManager = require('./databaseManager');
  * 
  */
 
-exports.paymentHandler = async (event) => {
+exports.paymentHandler = async (event, context) => {
 	console.log(event);
 
 	switch (event.httpMethod) {
@@ -23,7 +23,7 @@ exports.paymentHandler = async (event) => {
 		case 'GET':
 			return getPayment(event);
 		case 'POST':
-			return savePayment(event);
+			return savePayment(event, context);
 		case 'PUT':
 			return updatePayment(event);
 		default:
@@ -31,7 +31,7 @@ exports.paymentHandler = async (event) => {
 	}
 };
 
-function savePayment(event) {
+function savePayment(event, context) {
 	const payment = JSON.parse(event.body);
 	payment.paymentId = context.awsRequestId;
 	payment.customerId = event.requestContext.authorizer.claims.sub;
