@@ -36,7 +36,7 @@ module.exports.getPayment = paymentId => {
 		.get(params)
 		.promise()
 		.then(result => {
-			return result.payment;
+			return result.Item;
 		});
 };
 
